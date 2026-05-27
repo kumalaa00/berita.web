@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BeritaKita - Portal Berita Terpercaya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FFFFFF;
+  --bg-soft:#F8FAFC;
+  --text:#1E293B;
+  --text-muted:#64748B;
+  --primary:#DC2626;
+  --accent:#2563EB;
+  --border:#E2E8F0;
+  --card-bg:#FFFFFF;
+  --shadow:0 4px 6px -1px rgba(0,0,0,0.1);
+}
+[data-theme="dark"]{
+  --bg:#0F172A;
+  --bg-soft:#1E293B;
+  --text:#F1F5F9;
+  --text-muted:#94A3B8;
+  --primary:#EF4444;
+  --accent:#3B82F6;
+  --border:#334155;
+  --card-bg:#1E293B;
+  --shadow:0 4px 6px -1px rgba(0,0,0,0.4);
+}
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.6;
+  transition:background 0.3s,color 0.3s;
+}
+.container{
+  max-width:1200px;
+  margin:0 auto;
+  padding:0 20px;
+}
+
+/* Navbar */
+header{
+  background:var(--bg);
+  border-bottom:1px solid var(--border);
+  position:sticky;
+  top:0;
+  z-index:100;
+  backdrop-filter:blur(10px);
+}
+nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:16px 0;
+}
+.logo{
+  font-size:28px;
+  font-weight:800;
+  color:var(--primary);
+}
+.logo span{
+  color:var(--accent);
+}
+.nav-links{
+  display:flex;
+  gap:24px;
+  list-style:none;
+}
+.nav-links a{
+  color:var(--text);
+  text-decoration:none;
+  font-weight:600;
+  cursor:pointer;
+  transition:color 0.2s;
+}
+.nav-links a:hover,.nav-links a.active{
+  color:var(--primary);
+}
+.nav-actions{
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+.search-box{
+  padding:8px 12px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:var(--bg-soft);
+  color:var(--text);
+  width:200px;
+}
+.search-box:focus{
+  outline:2px solid var(--accent);
+  border-color:var(--accent);
+}
+.btn-icon{
+  background:var(--bg-soft);
+  border:1px solid var(--border);
+  padding:8px 12px;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:18px;
+  transition:all 0.2s;
+}
+.btn-icon:hover{
+  background:var(--border);
+}
+.menu-toggle{
+  display:none;
+}
+
+/* Hero */
+.hero{
+  background:linear-gradient(135deg,var(--primary),var(--accent));
+  color:white;
+  padding:60px 0;
+  margin-bottom:40px;
+}
+.hero-content{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:40px;
+  align-items:center;
+}
+.hero img{
+  width:100%;
+  border-radius:12px;
+  box-shadow:0 20px 25px -5px rgba(0,0,0,0.3);
+}
+.hero h1{
+  font-size:42px;
+  line-height:1.2;
+  margin-bottom:16px;
+}
+.hero p{
+  font-size:18px;
+  opacity:0.9;
+  margin-bottom:24px;
+}
+.btn{
+  background:white;
+  color:var(--primary);
+  padding:12px 24px;
+  border:none;
+  border-radius:8px;
+  font-weight:700;
+  cursor:pointer;
+  transition:transform 0.2s;
+}
+.btn:hover{
+  transform:translateY(-2px);
+}
+
+/* Category Filter */
+.filters{
+  display:flex;
+  gap:12px;
+  margin-bottom:32px;
+  flex-wrap:wrap;
+}
+.filter-btn{
+  padding:10px 20px;
+  border:2px solid var(--border);
+  background:var(--bg);
+  color:var(--text);
+  border-radius:999px;
+  cursor:pointer;
+  font-weight:600;
+  transition:all 0.2s;
+}
+.filter-btn:hover,.filter-btn.active{
+  background:var(--primary);
+  color:white;
+  border-color:var(--primary);
+}
+
+/* Article Grid */
+.section-title{
+  font-size:28px;
+  font-weight:800;
+  margin-bottom:24px;
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+  gap:24px;
+  margin-bottom:60px;
+}
+.card{
+  background:var(--card-bg);
+  border:1px solid var(--border);
+  border-radius:12px;
+  overflow:hidden;
+  transition:transform 0.2s,box-shadow 0.2s;
+  cursor:pointer;
+}
+.card:hover{
+  transform:translateY(-4px);
+  box-shadow:var(--shadow);
+}
+.card img{
+  width:100%;
+  height:200px;
+  object-fit:cover;
+}
+.card-content{
+  padding:20px;
+}
+.card-category{
+  display:inline-block;
+  background:var(--primary);
+  color:white;
+  padding:4px 12px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:700;
+  margin-bottom:12px;
+}
+.card h3{
+  font-size:20px;
+  margin-bottom:12px;
+  line-height:1.4;
+}
+.card p{
+  color:var(--text-muted);
+  font-size:14px;
+  margin-bottom:16px;
+}
+.card-meta{
+  display:flex;
+  justify-content:space-between;
+  color:var(--text-muted);
+  font-size:13px;
+}
+
+/* Modal */
+.modal{
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.7);
+  z-index:1000;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+.modal.active{
+  display:flex;
+}
+.modal-content{
+  background:var(--bg);
+  max-width:800px;
+  width:100%;
+  max-height:90vh;
+  overflow-y:auto;
+  border-radius:12px;
+  position:relative;
+}
+.modal-close{
+  position:absolute;
+  top:16px;
+  right:16px;
+  background:var(--primary);
+  color:white;
+  border:none;
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  font-size:24px;
+  cursor:pointer;
+  z-index:1;
+}
+.modal img{
+  width:100%;
+  height:300px;
+  object-fit:cover;
+}
+.modal-body{
+  padding:32px;
+}
+.modal-body h2{
+  font-size:32px;
+  margin-bottom:16px;
+}
+.modal-meta{
+  color:var(--text-muted);
+  margin-bottom:24px;
+}
+.modal-body p{
+  margin-bottom:16px;
+  font-size:16px;
+}
+
+/* Footer */
+footer{
+  background:var(--bg-soft);
+  border-top:1px solid var(--border);
+  padding:40px 0;
+  text-align:center;
+  color:var(--text-muted);
+}
+.footer-links{
+  display:flex;
+  justify-content:center;
+  gap:24px;
+  margin-bottom:20px;
+}
+.footer-links a{
+  color:var(--text-muted);
+  text-decoration:none;
+}
+.footer-links a:hover{
+  color:var(--primary);
+}
+
+/* Responsive */
+@media(max-width:768px){
+  .nav-links{
+    display:none;
+    position:absolute;
+    top:100%;
+    left:0;
+    width:100%;
+    background:var(--bg);
+    flex-direction:column;
+    padding:20px;
+    border-bottom:1px solid var(--border);
+  }
+  .nav-links.active{
+    display:flex;
+  }
+  .menu-toggle{
+    display:block;
+  }
+  .hero-content{
+    grid-template-columns:1fr;
+  }
+  .hero h1{
+    font-size:28px;
+  }
+  .search-box{
+    width:120px;
+  }
+  .grid{
+    grid-template-columns:1fr;
+  }
+}
+
+/* No Results */
+.no-results{
+  text-align:center;
+  padding:60px 20px;
+  color:var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav>
+      <div class="logo">Berita<span>Kita</span></div>
+      <ul class="nav-links" id="navLinks">
+        <li><a class="active" onclick="filterCategory('all')">Beranda</a></li>
+        <li><a onclick="filterCategory('teknologi')">Teknologi</a></li>
+        <li><a onclick="filterCategory('olahraga')">Olahraga</a></li>
+        <li><a onclick="filterCategory('politik')">Politik</a></li>
+        <li><a onclick="filterCategory('hiburan')">Hiburan</a></li>
+      </ul>
+      <div class="nav-actions">
+        <input type="text" class="search-box" id="searchBox" placeholder="Cari berita...">
+        <button class="btn-icon" id="themeToggle">🌙</button>
+        <button class="btn-icon menu-toggle" onclick="toggleMenu()">☰</button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container hero-content">
+    <div>
+      <h1 id="heroTitle">AI Terbaru Mampu Buat Video Realistis Hanya dari Teks</h1>
+      <p id="heroDesc">Teknologi AI generatif kembali menggemparkan dunia dengan kemampuan membuat video berkualitas tinggi hanya bermodalkan deskripsi teks singkat.</p>
+      <button class="btn" onclick="openArticle(0)">Baca Selengkapnya</button>
+    </div>
+    <img id="heroImg" src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800" alt="AI">
+  </div>
+</section>
+
+<main class="container">
+  <div class="filters" id="filters">
+    <button class="filter-btn active" onclick="filterCategory('all')">Semua</button>
+    <button class="filter-btn" onclick="filterCategory('teknologi')">Teknologi</button>
+    <button class="filter-btn" onclick="filterCategory('olahraga')">Olahraga</button>
+    <button class="filter-btn" onclick="filterCategory('politik')">Politik</button>
+    <button class="filter-btn" onclick="filterCategory('hiburan')">Hiburan</button>
+  </div>
+
+  <h2 class="section-title">Berita Terbaru</h2>
+  <div class="grid" id="articleGrid"></div>
+  <div class="no-results" id="noResults" style="display:none;">
+    <h3>Tidak ada berita ditemukan</h3>
+    <p>Coba kata kunci lain atau pilih kategori berbeda</p>
+  </div>
+</main>
+
+<div class="modal" id="articleModal">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <img id="modalImg" src="" alt="">
+    <div class="modal-body">
+      <span class="card-category" id="modalCategory"></span>
+      <h2 id="modalTitle"></h2>
+      <div class="modal-meta" id="modalMeta"></div>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="footer-links">
+      <a href="#">Tentang Kami</a>
+      <a href="#">Kontak</a>
+      <a href="#">Kebijakan Privasi</a>
+      <a href="#">Karir</a>
+    </div>
+    <p>© 2026 BeritaKita. Semua Hak Dilindungi.</p>
+  </div>
+</footer>
+
+<script>
+// Data Artikel
+const articles=[
+  {
+    id:0,
+    title:"AI Terbaru Mampu Buat Video Realistis Hanya dari Teks",
+    category:"teknologi",
+    image:"https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800",
+    summary:"Teknologi AI generatif kembali menggemparkan dunia dengan kemampuan membuat video berkualitas tinggi hanya bermodalkan deskripsi teks singkat.",
+    content:`<p>Perusahaan teknologi terkemuka baru saja merilis model AI generatif terbaru yang mampu menghasilkan video berdurasi hingga 1 menit dengan resolusi 1080p hanya dari perintah teks.</p>
+    <p>Teknologi ini menggunakan arsitektur transformer lanjutan yang dilatih pada jutaan video. Hasilnya sangat realistis, sulit dibedakan dengan video asli. Hal ini membuka peluang besar untuk industri film, iklan, dan edukasi.</p>
+    <p>Namun, para ahli juga mengingatkan potensi penyalahgunaan teknologi ini untuk membuat deepfake. Oleh karena itu, pengembangan etika AI menjadi sangat penting ke depannya.</p>`,
+    date:"27 Mei 2026",
+    author:"Rina Sari"
+  },
+  {
+    id:1,
+    title:"Timnas Indonesia Lolos ke Piala Asia U-23",
+    category:"olahraga",
+    image:"https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=800",
+    summary:"Kemenangan dramatis 3-2 atas Uzbekistan membawa Timnas U-23 Indonesia lolos ke babak final Piala Asia U-23.",
+    content:`<p>Dalam pertandingan yang berlangsung sengit, Timnas Indonesia U-23 berhasil membalikkan keadaan dan menang 3-2 atas Uzbekistan. Gol kemenangan dicetak pada menit ke-89 oleh Marselino Ferdinan.</p>
+    <p>Pelatih Shin Tae-yong memuji mental bertanding para pemain yang tidak pernah menyerah. Ini adalah pertama kalinya Indonesia lolos ke final turnamen ini sejak 2018.</p>`,
+    date:"26 Mei 2026",
+    author:"Budi Santoso"
+  },
+  {
+    id:2,
+    title:"Pemerintah Umumkan Kebijakan Digitalisasi UMKM",
+    category:"politik",
+    image:"https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800",
+    summary:"Program baru senilai 5 triliun rupiah diluncurkan untuk membantu UMKM bertransformasi ke platform digital.",
+    content:`<p>Menteri Koperasi dan UMKM mengumumkan program Digitalisasi UMKM 2026 dengan anggaran 5 triliun rupiah. Program ini mencakup pelatihan gratis, subsidi internet, dan bantuan pembuatan website toko online.</p>
+    <p>Targetnya adalah 2 juta UMKM dapat go digital dalam 2 tahun ke depan untuk meningkatkan daya saing di pasar global.</p>`,
+    date:"25 Mei 2026",
+    author:"Dewi Lestari"
+  },
+  {
+    id:3,
+    title:"Film Marvel Terbaru Pecahkan Rekor Box Office",
+    category:"hiburan",
+    image:"https://images.unsplash.com/photo-1489599735734-79a1cce77e58?w=800",
+    summary:"Film superhero terbaru dari Marvel Studios berhasil meraup 500 juta dolar dalam 3 hari penayangan perdana.",
+    content:`<p>"Avengers: New Dawn" mencetak rekor sebagai film dengan pembukaan terbesar tahun ini. Penonton memuji efek visual dan alur cerita yang emosional.</p>
+    <p>Sutradara mengatakan film ini akan menjadi awal dari fase baru MCU yang lebih gelap dan kompleks.</p>`,
+    date:"24 Mei 2026",
+    author:"Andi Wijaya"
+  },
+  {
+    id:4,
+    title:"iPhone 17 Resmi Rilis, Bawa Chip A19 dan Kamera 200MP",
+    category:"teknologi",
+    image:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800",
+    summary:"Apple meluncurkan iPhone 17 dengan peningkatan besar pada kamera dan performa AI on-device.",
+    content:`<p>iPhone 17 hadir dengan
